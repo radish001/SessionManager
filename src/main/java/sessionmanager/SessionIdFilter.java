@@ -12,7 +12,10 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 public class SessionIdFilter implements Filter{
+	private static final Logger LOG=Logger.getLogger(SessionIdFilter.class);
 
 	@Override
 	public void destroy() {
@@ -27,7 +30,8 @@ public class SessionIdFilter implements Filter{
 		if("request".equals(Config.getMode())){                      //如果是request模式，就初始化
 			  HttpSession httpSession=HttpSession.getInstance();     //初始化HttpSession
 			  Thread thread=new Thread(new DestoryHttpSessionThread());
-			  thread.start();                                        //启动定时销毁HttpSession的线程
+			  thread.start();                                     //启动定时销毁HttpSession的线程
+			  LOG.info("HttpSession已初始化，定时销毁线程已启动！");                                    
 		      System.out.println("HttpSession已初始化，定时销毁线程已启动！");
 		}
 		  

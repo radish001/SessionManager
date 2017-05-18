@@ -6,7 +6,15 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+/**
+ * 操作cookie的工具类
+ * @author hxd
+ *
+ */
 public class CookieUtils {
+	
+	    private static final Logger log=Logger.getLogger(CookieUtils.class);
 	    /**
 	     * 添加cookie
 	     * @param request 
@@ -25,7 +33,7 @@ public class CookieUtils {
                 Cookie cookie = new Cookie(cookieName, cookieValue);
                 if (cookieMaxage > 0)
                     cookie.setMaxAge(cookieMaxage);
-                if (null != request)// 设置域名的cookie
+                if (null != request)               // 设置域名的cookie
                     //cookie.setDomain(getDomainName(request));		引发无法设置cookie
                 cookie.setPath("/");
                 response.addCookie(cookie);

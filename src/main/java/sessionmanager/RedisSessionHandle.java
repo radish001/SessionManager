@@ -1,6 +1,6 @@
 package sessionmanager;
 
-
+import org.apache.log4j.Logger;
 
 /**
  * 此类是redissession的分装的顶层类，直接提供各种操作
@@ -10,7 +10,7 @@ package sessionmanager;
 
 public class RedisSessionHandle {
     private static RedisSession redisSession=RedisSession.getInstance();
-	
+	private static final Logger LOG=Logger.getLogger(RedisSessionHandle.class);
     /**
      * 向redissession中设置数据，包括时间
      * @param key
@@ -88,7 +88,6 @@ public class RedisSessionHandle {
 		try {
 			return RedisSession.destory();
 		} catch (Exception e) {
-			e.getMessage();
 			e.printStackTrace();
 			throw e;
 		}
@@ -110,7 +109,8 @@ public class RedisSessionHandle {
 				throw e;
 			}
 		}else{
-			throw new Exception("判断时候有此sessionId时参数不合法");
+			LOG.error("判断时候有此sessionId时参数不合法:"+sessionId);
+			throw new Exception("判断时候有此sessionId时参数不合法:"+sessionId);
 		}
 	}
 }

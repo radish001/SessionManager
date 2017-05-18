@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
  *
  */
 public class DestoryHttpSessionThread implements Runnable{
-	static Logger log = Logger.getLogger(DestoryHttpSessionThread.class);
+	private static Logger log = Logger.getLogger(DestoryHttpSessionThread.class);
 	@Override
 	public void run() {
 		while(true){
@@ -21,7 +21,6 @@ public class DestoryHttpSessionThread implements Runnable{
 				destoryHttpSession();
 			} catch (Exception e) {
 				e.printStackTrace();
-				e.getMessage();
 				log.error("销毁HttpSession线程错误");
 			}
 		}
@@ -40,10 +39,10 @@ public class DestoryHttpSessionThread implements Runnable{
 	         try {
 				if(HttpSession.isOutTime(sessionId, new Date())){
 					 it.remove();
+					 log.info("sessionId为："+sessionId+"的httpsession销毁成功");
 					 System.out.println("sessionId为："+sessionId+"的httpsession销毁成功");
 				 }
 			} catch (Exception e) {
-				e.getMessage();
 				e.printStackTrace();
 				throw e;
 			}

@@ -4,7 +4,11 @@ import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.log4j.Logger;
-
+/**
+ * 配置文件类
+ * @author hxd
+ *
+ */
 public class Config {
       private static String mode;
       private static String sessionValid;
@@ -15,7 +19,7 @@ public class Config {
       private static int maxTotal;
       private static String cookieName;
       private static final Config instance=new Config();
-      static Logger log = Logger.getLogger(Config.class);
+      private static Logger log = Logger.getLogger(Config.class);
       
       
       
@@ -25,7 +29,7 @@ public class Config {
       static {
     	  CompositeConfiguration configuration=new CompositeConfiguration();
     	  try {
-			configuration.addConfiguration(new PropertiesConfiguration("config/session.properties"));
+			configuration.addConfiguration(new PropertiesConfiguration("session.properties"));
 			  mode=configuration.getString("mode");
 	    	  sessionValid=configuration.getString("session_valid");
 			  ip=configuration.getString("redis.ip");
@@ -37,12 +41,6 @@ public class Config {
 		} catch (ConfigurationException e) {
 			e.printStackTrace();
 			log.error("读取配置文件错误");
-			System.out.println("读取配置文件错误");
-			try {
-				throw e;
-			} catch (ConfigurationException e1) {
-				e1.printStackTrace();
-			}
 		}
     	    
       }

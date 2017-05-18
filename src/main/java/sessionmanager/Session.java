@@ -16,6 +16,7 @@ public class Session {
 	   
        private  Map<String,Object> sessionMap=new Hashtable<>();       
        private  Date lastTime;
+       private static final Logger LOG=Logger.getLogger(Session.class);
        
        /**
         * 设置map的键值
@@ -40,6 +41,7 @@ public class Session {
     	    	  if(sessionMap.containsKey(key)){
     	    		  return sessionMap.get(key);
     	    	  }else{
+    	    		  LOG.error(Thread.currentThread().getName()+"线程下"+ThreadLocalUtil.get()+"不存在此key:"+key);
     	    		  throw new Exception(Thread.currentThread().getName()+"线程下"+ThreadLocalUtil.get()+"不存在此key:"+key);
     	    	  }
     	    	  

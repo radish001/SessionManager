@@ -20,7 +20,6 @@ public class SessionManager {
         	  try {
 				sessionId=RedisSessionHandle.set(key, value);
 			} catch (Exception e) {
-				e.getMessage();
 				e.printStackTrace();
 				throw e;
 			}
@@ -28,7 +27,6 @@ public class SessionManager {
                  try {
 					sessionId=HttpSessionHandle.set(key, value);
 				} catch (Exception e) {
-					e.getMessage();
 					e.printStackTrace();
 					throw e;
 				}			
@@ -51,6 +49,7 @@ public class SessionManager {
         		try {
 					value=RedisSessionHandle.get(key, clazz);
 				} catch (Exception e) {
+					e.printStackTrace();
 					throw e;
 				}
         	}else if (REQUEST.equals(MODE)) {
@@ -76,7 +75,6 @@ public class SessionManager {
         		try {
 					b=RedisSessionHandle.delete(key);
 				} catch (Exception e) {
-					e.getMessage();
 					e.printStackTrace();
 					throw e;
 				}
@@ -84,7 +82,6 @@ public class SessionManager {
 				 try {
 					b=HttpSessionHandle.delete(key);
 				} catch (Exception e) {
-	                e.getMessage();
 					e.printStackTrace();
 					throw e;
 				}
@@ -101,14 +98,13 @@ public class SessionManager {
         		try {
 					RedisSessionHandle.refreshValid();
 				} catch (Exception e) {
-					//e.printStackTrace();
+					e.printStackTrace();
 					throw e;
 				}
         	}else if(REQUEST.equals(MODE)){
         		try {
 					HttpSessionHandle.refreshValid();
 				} catch (Exception e) {
-					e.getMessage();
 					e.printStackTrace();
 					throw e;
 				}
@@ -127,7 +123,6 @@ public class SessionManager {
         		try {
 					b=RedisSessionHandle.destory();
 				} catch (Exception e) {
-					e.getMessage();
 					e.printStackTrace();
 					throw e;
 				}
@@ -135,7 +130,6 @@ public class SessionManager {
 				 try {
 					b=HttpSessionHandle.destory();
 				} catch (Exception e) {
-					e.getMessage();
 					e.printStackTrace();
 					throw e;
 				}
