@@ -13,7 +13,8 @@ public class TestRedisSession {
 	  public static void main(String[] args) {
 		 //get();
 		  //delete();
-		  setWithOutTime();
+		  //setWithOutTime();
+		  get();
 	}
 	  
 	  
@@ -42,9 +43,10 @@ public class TestRedisSession {
 		  try {
 		    String uuid=RedisSession.set("1",user);
 		    System.out.println("uuid:"+uuid);
-		    Object object=RedisSession.get("1", User.class);
-		    User user2=(User)object;
+		    User user2=(User)RedisSession.get("1", User.class);
+		    System.out.println("---------------------------------------------------");
 		    System.out.println("得到的user："+user2);
+		   
 		} catch (Exception e) {
 			
 			e.printStackTrace();

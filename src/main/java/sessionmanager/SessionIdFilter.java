@@ -50,15 +50,20 @@ public class SessionIdFilter implements Filter{
 			   CookieUtils.setMaxAge((HttpServletRequest)request, Config.getCookieName(), 0); //删除此cookie 再新建一样的cookie，等于刷新cookie时间
 		       CookieUtils.setCookie((HttpServletRequest)request, (HttpServletResponse)response, Config.getCookieName(), sessionId, Integer.parseInt(Config.getSessionValid())*60);
 		    }else{                                     
-		       String newSessionId=UUID.randomUUID().toString();    //如果没有就新生成sessionId 并放入ThreadLocal和cookie中
-		       ThreadLocalUtil.set(newSessionId);
-		       CookieUtils.setCookie((HttpServletRequest)request, (HttpServletResponse)response, Config.getCookieName(), newSessionId, Integer.parseInt(Config.getSessionValid())*60);
-		       try {
-				SessionManager.set("","");                        //在服务器创建该用户的session
+		       String newSessionId=null;
+			try {
+				newSessionId = SessionManager.set("", "");     //如果没有就在服务器创建session，生成uuid并放入ThreadLocal和cookie中
 			} catch (Exception e) {
 				e.printStackTrace();
+			} 
+			  if(newSessionId!=null){
+				  ThreadLocalUtil.set(newSessionId);
+			      CookieUtils.setCookie((HttpServletRequest)request, (HttpServletResponse)response, Config.getCookieName(), newSessionId, Integer.parseInt(Config.getSessionValid())*60);
+			  }  
+		       
+		       
 			}                        
-		    }
+		    
 		   chain.doFilter(request, response);
 		   System.out.println("过滤完毕,sessionID为："+ThreadLocalUtil.get());
 	}

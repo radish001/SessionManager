@@ -53,11 +53,10 @@ public class SessionManager {
 					throw e;
 				}
         	}else if ("request".equals(MODE)) {
-				 try {
-					value=HttpSessionHandle.get(key);
+				 try {	 
+					value=HttpSessionHandle.get(key);		
 				} catch (Exception e) {
-					e.getMessage();
-					//e.printStackTrace();
+					e.printStackTrace();
 					throw e;
 				}
 			}
