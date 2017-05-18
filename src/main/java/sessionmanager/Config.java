@@ -19,7 +19,7 @@ public class Config {
       private static int maxTotal;
       private static String cookieName;
       private static final Config instance=new Config();
-      private static Logger log = Logger.getLogger(Config.class);
+      private static final Logger LOG = Logger.getLogger(Config.class);
       
       
       
@@ -40,7 +40,7 @@ public class Config {
 	    	  cookieName=configuration.getString("cookie_name");
 		} catch (ConfigurationException e) {
 			e.printStackTrace();
-			log.error("读取配置文件错误");
+			LOG.error("读取配置文件错误");
 		}
     	    
       }

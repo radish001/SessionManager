@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
  */
 public class HttpSessionHandle {
  
-          private static final Logger log=Logger.getLogger(HttpSessionHandle.class);
+          private static final Logger LOG=Logger.getLogger(HttpSessionHandle.class);
         
         
         /**
@@ -27,9 +27,9 @@ public class HttpSessionHandle {
         		String sessionId=ThreadLocalUtil.get();
         		if(sessionId!=null&&!sessionId.equals("")){
         			try {
-        				log.info("添加数据的sessionId为："+sessionId);
-        				log.info("添加数据的线程为："+Thread.currentThread().getName());
-        				log.info("添加的数据为："+"  key:"+key+"  value:"+value);
+        				LOG.info("添加数据的sessionId为："+sessionId);
+        				LOG.info("添加数据的线程为："+Thread.currentThread().getName());
+        				LOG.info("添加的数据为："+"  key:"+key+"  value:"+value);
         				System.out.println("添加数据的sessionId为："+sessionId);
         				System.out.println("添加数据的线程为："+Thread.currentThread().getName());
         				System.out.println("添加的数据为："+"  key:"+key+"  value:"+value);
@@ -47,7 +47,7 @@ public class HttpSessionHandle {
         			return newSessionId;
         		}
         	}else{
-        		log.error(ThreadLocalUtil.get()+"：添加httpsession时数据不合法");
+        		LOG.error(ThreadLocalUtil.get()+"：添加httpsession时数据不合法");
         		throw new Exception("添加httpsession时数据不合法");
         	}    	 
         }
@@ -68,9 +68,9 @@ public class HttpSessionHandle {
         			Object value=null;
         			try {
         				value=HttpSession.getValue(sessionId, key);
-        				log.info("添加数据的sessionId为："+sessionId);
-        				log.info("添加数据的线程为："+Thread.currentThread().getName());
-        				log.info("添加的数据为："+"  key:"+key+"  value:"+value);
+        				LOG.info("添加数据的sessionId为："+sessionId);
+        				LOG.info("添加数据的线程为："+Thread.currentThread().getName());
+        				LOG.info("添加的数据为："+"  key:"+key+"  value:"+value);
         				System.out.println("得到数据的sessionId为："+sessionId);
         				System.out.println("得到数据的线程为："+Thread.currentThread().getName());
         				System.out.println("得到的数据为："+"  key:"+key+"  value:"+value);
@@ -80,11 +80,11 @@ public class HttpSessionHandle {
 						throw e;
 					}
         		}else{
-        			log.error("sessionId不存在");
+        			LOG.error("sessionId不存在");
 					throw new Exception("sessionId不存在");
 				}	
         	}else{
-        		log.error("获取value时参数不合法");
+        		LOG.error("获取value时参数不合法");
         		throw new Exception("获取value时参数不合法");
         	}
         }
@@ -109,11 +109,11 @@ public class HttpSessionHandle {
                         throw e;
 					}	 
         		}else{
-        			log.error("sessionId不存在");
+        			LOG.error("sessionId不存在");
         			throw new Exception("不存在此sessionId");
         		}
         	}else{
-        		log.error("获取value时参数不合法");
+        		LOG.error("获取value时参数不合法");
         		throw new Exception("删除HttpSession时数据不合法");
         	}
 			return b;	
@@ -139,7 +139,7 @@ public class HttpSessionHandle {
 					throw e;
 				}
 			}else{
-				log.error("不存在此sessionId");
+				LOG.error("不存在此sessionId");
 				throw new Exception("不存在此sessionId");
 			}
 			return b;
@@ -159,7 +159,7 @@ public class HttpSessionHandle {
 					if(HttpSession.containsSessionId(sessionId)){
 						HttpSession.setLastTime(sessionId, new Date());
 					}else{
-						log.error("HttpSessionMap中不存在此sessionId:"+sessionId);
+						LOG.error("HttpSessionMap中不存在此sessionId:"+sessionId);
 						throw new Exception("HttpSessionMap中不存在此sessionId:"+sessionId);
 					}
 				} catch (Exception e) {
@@ -167,7 +167,7 @@ public class HttpSessionHandle {
 					throw e;
 				}
         	}else{
-        		log.error("ThreadLocal中不存在此seeeionId");
+        		LOG.error("ThreadLocal中不存在此seeeionId");
         		throw new Exception("ThreadLocal中不存在此seeeionId");
         	}
         }
@@ -187,7 +187,7 @@ public class HttpSessionHandle {
 					throw e;
 				}
         	}else{
-        		log.error("判断Session是否存在时参数不合法");
+        		LOG.error("判断Session是否存在时参数不合法");
         		throw new Exception("判断Session是否存在时参数不合法");
         	}
         }

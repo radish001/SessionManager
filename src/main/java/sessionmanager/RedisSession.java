@@ -21,7 +21,7 @@ public class RedisSession {
 	  private static JedisPool pool=null;
 	  private static final RedisSession INSTANCE=new RedisSession();
 	  private static final ObjectMapper MAPPER=new ObjectMapper();
-	  private static final Logger log=Logger.getLogger(RedisSession.class);
+	  private static final Logger LOG=Logger.getLogger(RedisSession.class);
 	  
 	  private RedisSession(){
 		  
@@ -69,15 +69,15 @@ public class RedisSession {
     		 long ret=jedis.hset(sessionId, key, MAPPER.writeValueAsString(value)); //如果filed已经存在，返回0，新建返回1
         	 jedis.expire(sessionId,Integer.parseInt(Config.getSessionValid())*60);//设置生存时间
     		 if(ret==0||ret==1){
-    			 log.info("添加的数据sessionId："+sessionId+" key:"+key+" value:"+MAPPER.writeValueAsString(value));
-    			 log.info("添加数据的线程为："+Thread.currentThread().getName());
+    			 LOG.info("添加的数据sessionId："+sessionId+" key:"+key+" value:"+MAPPER.writeValueAsString(value));
+    			 LOG.info("添加数据的线程为："+Thread.currentThread().getName());
     			 System.out.println("添加的数据sessionId："+sessionId+" key:"+key+" value:"+MAPPER.writeValueAsString(value));
     			 System.out.println("添加数据的线程为："+Thread.currentThread().getName());
     			 returnResource(pool, jedis); 
         		 return sessionId;
         	 }else{
         		 pool.returnBrokenResource(jedis);
-        		 log.error("RedisSession添加数据失败");
+        		 LOG.error("RedisSession添加数据失败");
         		 throw new Exception("RedisSession添加数据失败");
         	 }	
     	 }else{
@@ -90,7 +90,7 @@ public class RedisSession {
         		 return newSessionId;
         	 }else{
         		 pool.returnBrokenResource(jedis);
-        		 log.error("RedisSession添加数据失败");
+        		 LOG.error("RedisSession添加数据失败");
         		 throw new Exception("RedisSession添加数据失败");
         	 }	
     	 }
@@ -115,7 +115,7 @@ public class RedisSession {
         		 return sessionId;
         	 }else{
         		 pool.returnBrokenResource(jedis);
-        		 log.error("RedisSession添加数据失败");
+        		 LOG.error("RedisSession添加数据失败");
         		 throw new Exception("RedisSession添加数据失败");
         	 }	
     	 }else{
@@ -128,7 +128,7 @@ public class RedisSession {
         		 return newSessionId;
         	 }else{
         		 pool.returnBrokenResource(jedis);
-        		 log.error("RedisSession添加数据失败");
+        		 LOG.error("RedisSession添加数据失败");
         		 throw new Exception("RedisSession添加数据失败");
         	 }	
     	 }
@@ -152,7 +152,7 @@ public class RedisSession {
         		 return sessionId;
          	 }else{
          		 pool.returnBrokenResource(jedis);
-         		 log.error("RedisSession添加数据失败");
+         		 LOG.error("RedisSession添加数据失败");
          		 throw new Exception("RedisSession添加数据失败");
          	 }	
      	 }else{
@@ -164,7 +164,7 @@ public class RedisSession {
          		 return newSessionId;
          	 }else{
          		 pool.returnBrokenResource(jedis);
-         		 log.error("RedisSession添加数据失败");
+         		 LOG.error("RedisSession添加数据失败");
          		 throw new Exception("RedisSession添加数据失败");
          	 }	
      	 }
@@ -184,7 +184,7 @@ public class RedisSession {
    	     Jedis jedis=pool.getResource();
           if(!jedis.exists(sessionId)){
         	  pool.returnBrokenResource(jedis);
-        	  log.error("当前sessionId不存在:"+sessionId);
+        	  LOG.error("当前sessionId不存在:"+sessionId);
         	  throw new Exception("当前sessionId不存在:"+sessionId);    	  
           }
            jedis.expire(sessionId, seconds);
@@ -229,23 +229,23 @@ public class RedisSession {
     				   System.out.println("得到数据的sessionId："+sessionId);
     				   System.out.println("得到的jsonDate为："+jsonDate);
     				   System.out.println("得到数据的线程为："+Thread.currentThread().getName());
-    				   log.info("得到数据的sessionId："+sessionId);
-    				   log.info("得到的jsonDate为："+jsonDate);
-    				   log.info("得到数据的线程为："+Thread.currentThread().getName());
+    				   LOG.info("得到数据的sessionId："+sessionId);
+    				   LOG.info("得到的jsonDate为："+jsonDate);
+    				   LOG.info("得到数据的线程为："+Thread.currentThread().getName());
             		   value=MAPPER.readValue(jsonDate, clazz);
             		   returnResource(pool, jedis);
             		   return value;
     			   }else{
-    				   log.info(sessionId+"下不存在此key:"+key);
+    				   LOG.info(sessionId+"下不存在此key:"+key);
     				   throw new Exception(sessionId+"下不存在此key:"+key);   
     			   }
     		   }else{
-    			   log.info("redis中不存在此sessionId:"+sessionId);
+    			   LOG.info("redis中不存在此sessionId:"+sessionId);
     			   throw new Exception("redis中不存在此sessionId:"+sessionId);
     		   }
     	   }else{
     		   pool.returnBrokenResource(jedis);
-    		   log.info("ThreadLocal中不存在此sessionId:"+sessionId);
+    		   LOG.info("ThreadLocal中不存在此sessionId:"+sessionId);
     		   throw new Exception("ThreadLocal中不存在此sessionId:"+sessionId);
     	   }	   
      }  
@@ -267,7 +267,7 @@ public class RedisSession {
              return ret==1? true:false;
     	 }else{
     		 pool.returnBrokenResource(jedis);
-    		 log.error("sessionId不正确:"+sessionId);
+    		 LOG.error("sessionId不正确:"+sessionId);
     		 throw new Exception("sessionId不正确:"+sessionId);  		 
     	 }            
      }
@@ -285,7 +285,7 @@ public class RedisSession {
     		return ret>0?  true:false;
     	 }else{
     		 pool.returnBrokenResource(jedis);
-    		 log.error("sessionId不正确:"+sessionId);
+    		 LOG.error("sessionId不正确:"+sessionId);
     		 throw new Exception("sessionId不正确:"+sessionId);  
     	 }
      }
@@ -305,7 +305,7 @@ public class RedisSession {
     		 returnResource(pool, jedis);
     		 return b;
     	 }else{
-    		 log.error("判断sessionId是否存在时参数不合法");
+    		 LOG.error("判断sessionId是否存在时参数不合法");
     		throw new Exception("判断sessionId是否存在时参数不合法"); 
     	 }
      }

@@ -16,7 +16,7 @@ public class HttpSession {
 	  //key为sessionId  value为session对象
       private static Map<String, Session> httpSessionMap = new Hashtable<>();
       private static final HttpSession instance=new HttpSession();
-      private static Logger log = Logger.getLogger(HttpSession.class);
+      private static Logger LOG = Logger.getLogger(HttpSession.class);
       //此类是单例的
       private HttpSession(){ 
     	  
@@ -41,7 +41,7 @@ public class HttpSession {
     		  return httpSessionMap.get(sessionId);
     	  }
     	  else {
-    		  log.error(ThreadLocalUtil.get()+":获取session时数据不合法");
+    		  LOG.error(ThreadLocalUtil.get()+":获取session时数据不合法");
 			throw new Exception(ThreadLocalUtil.get()+":获取session时数据不合法");
 		}
       }
@@ -66,7 +66,7 @@ public class HttpSession {
     			    httpSessionMap.put(sessionId,session);
     		  }
     	  }else{
-    		  log.error(ThreadLocalUtil.get()+":添加session时数据不合法");
+    		  LOG.error(ThreadLocalUtil.get()+":添加session时数据不合法");
     		  throw new Exception(ThreadLocalUtil.get()+":添加session时数据不合法");
     	  }
       }
@@ -84,11 +84,11 @@ public class HttpSession {
     			  Session session=httpSessionMap.get(sessionId);
         		  session.setLastTime(date);
     		  }else{
-    			  log.error("没有此sessionId");
+    			  LOG.error("没有此sessionId");
     			  throw new Exception("没有此sessionId");
     		  }	  
     	  }else {
-    		  log.error(ThreadLocalUtil.get()+"：设置最后登录时间时数据不合法");
+    		  LOG.error(ThreadLocalUtil.get()+"：设置最后登录时间时数据不合法");
 			 throw new Exception(ThreadLocalUtil.get()+"：设置最后登录时间时数据不合法");
 		}
       }
@@ -108,11 +108,11 @@ public class HttpSession {
         		  if(lastTime!=null){
         			  return lastTime;
         		  }else{
-        			  log.error(ThreadLocalUtil.get()+"：获取lastTime为null");
+        			  LOG.error(ThreadLocalUtil.get()+"：获取lastTime为null");
         			  throw new Exception(ThreadLocalUtil.get()+"：lastTime为null");
         		  }
     		  }else{
-    			  log.error("没有此sessionId");
+    			  LOG.error("没有此sessionId");
     			  throw new Exception("没有此sessionId");
     		  }
     		  
@@ -136,11 +136,11 @@ public class HttpSession {
     			  Object value=session.getAttribute(key);
     			  return value;
     		  }else{
-    			  log.error("不存在此sessionId");
+    			  LOG.error("不存在此sessionId");
     			  throw new Exception("不存在此sessionId");
     		  }
     	  }else{
-    		  log.error(ThreadLocalUtil.get()+"：获取value时数据不合法");
+    		  LOG.error(ThreadLocalUtil.get()+"：获取value时数据不合法");
     		  throw new Exception(ThreadLocalUtil.get()+"：获取value时数据不合法");
     	  }
       }
@@ -158,11 +158,11 @@ public class HttpSession {
     			  Session session=httpSessionMap.get(sessionId);
         		  session.addAttribute(key, value);
     		  }else{
-    			  log.error("不存在此sessionId");
+    			  LOG.error("不存在此sessionId");
     			  throw new Exception("不存在此sessionId");
     		  }
     	  }else{
-    		  log.error(ThreadLocalUtil.get()+"：设置session中值时数据不合法");
+    		  LOG.error(ThreadLocalUtil.get()+"：设置session中值时数据不合法");
     		  throw new Exception(ThreadLocalUtil.get()+"：设置session中值时数据不合法");
     	  }
     	  
@@ -181,15 +181,15 @@ public class HttpSession {
     			 if(session!=null){
     				return true;
     			 }else{
-    				 log.error(ThreadLocalUtil.get()+"：删除session时错误");
+    				 LOG.error(ThreadLocalUtil.get()+"：删除session时错误");
     				 throw new Exception(ThreadLocalUtil.get()+"：删除session时错误");
     			 }
     		  }else{
-    			  log.error("不含有此sessionId");
+    			  LOG.error("不含有此sessionId");
     			  throw new Exception("不含有此sessionId");
     		  }
     	  }else{
-    		  log.error(ThreadLocalUtil.get()+"：删除session时数据不合法");
+    		  LOG.error(ThreadLocalUtil.get()+"：删除session时数据不合法");
     		  throw new Exception(ThreadLocalUtil.get()+"：删除session时数据不合法");
     	  }
     	  
@@ -219,7 +219,7 @@ public class HttpSession {
     			return interval>sessionValid;
     		 }  
     	  }
-    	  log.error("判断session是否过期时数据不合法");
+    	  LOG.error("判断session是否过期时数据不合法");
     	  throw new Exception("判断session是否过期时数据不合法");
       }
       
@@ -248,7 +248,7 @@ public class HttpSession {
     			  b=false;
     		  }
     	  }else{
-    		  log.error("删除HttpSession时数据不合法");
+    		  LOG.error("删除HttpSession时数据不合法");
     		  throw new Exception("删除HttpSession时数据不合法");
     	  }
 		return b;
@@ -265,7 +265,7 @@ public class HttpSession {
     	  if(sessionId!=null){
     		  return httpSessionMap.containsKey(sessionId);
     	  }else{
-    		  log.error("判断是否存在sessionId时数据不合法");
+    		  LOG.error("判断是否存在sessionId时数据不合法");
     		  throw new Exception("判断是否存在sessionId时数据不合法");
     	  }
                

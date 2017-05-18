@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
  */
 public class CookieUtils {
 	
-	    private static final Logger log=Logger.getLogger(CookieUtils.class);
+	    private static final Logger LOG=Logger.getLogger(CookieUtils.class);
 	    /**
 	     * 添加cookie
 	     * @param request 
