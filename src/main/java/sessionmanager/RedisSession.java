@@ -247,9 +247,11 @@ public class RedisSession {
     	 if(sessionId!=null&&!sessionId.equals("")){
     		 long ret=jedis.hdel(sessionId, key);
              returnResource(pool, jedis);
+             returnResource(pool, jedis);
              return ret==1? true:false;
     	 }else{
-    		 throw new Exception("sessionId不正确");
+    		 pool.returnBrokenResource(jedis);
+    		 throw new Exception("sessionId不正确");  		 
     	 }            
      }
      /**
@@ -265,7 +267,27 @@ public class RedisSession {
     		 returnResource(pool, jedis);
     		return ret>0?  true:false;
     	 }else{
+    		 pool.returnBrokenResource(jedis);
     		 throw new Exception("sessionId不正确");
+    	 }
+     }
+     
+     
+     /**
+      * 判断是否含有此sessionId
+      * @param sessionId
+      * @return
+      * @throws Exception
+      */
+     public static boolean containsSessionId(String sessionId) throws Exception{
+    	 boolean b=true;
+    	 if(sessionId!=null&&!sessionId.equals("")){
+    		 Jedis jedis=pool.getResource();
+    		 b=jedis.exists(sessionId);
+    		 returnResource(pool, jedis);
+    		 return b;
+    	 }else{
+    		throw new Exception("判断sessionId是否存在时参数不合法"); 
     	 }
      }
      

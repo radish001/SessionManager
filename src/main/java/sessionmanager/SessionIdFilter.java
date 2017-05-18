@@ -41,9 +41,10 @@ public class SessionIdFilter implements Filter{
 		    
 		    String sessionId=CookieUtils.getCookieValue((HttpServletRequest)request, Config.getCookieName());
 		    if(sessionId!=null&&!sessionId.equals("")){
-			   ThreadLocalUtil.set(sessionId);      //如果有此sessionID就放入到threadLocal中
-			   try {
-				SessionManager.refreshValid();      //浏览器每次和服务器有交互就刷新服务器中的session有效时间
+		      try {
+		    		ThreadLocalUtil.set(sessionId);      //如果有此sessionID就放入到threadLocal中	  
+					SessionManager.set("", "");          //这里是为了防止cookie中有此sessionId但是服务器session中没有的bug，同时也起到刷新时间的作用
+		    		//SessionManager.refreshValid();      //浏览器每次和服务器有交互就刷新服务器中的session有效时间		   
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

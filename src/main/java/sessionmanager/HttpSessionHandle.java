@@ -156,5 +156,25 @@ public class HttpSessionHandle {
         	}
         }
         
+        /**
+         * 判断是否含有此sessionId
+         * @param sessionId
+         * @return
+         * @throws Exception
+         */
+        public static boolean containsSessionId(String sessionId) throws Exception{
+        	if(sessionId!=null&&!sessionId.equals("")){
+        		try {
+					return HttpSession.containsSessionId(sessionId);
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw e;
+				}
+        	}else{
+        		throw new Exception("判断Session是否存在时参数不合法");
+        	}
+        }
+        
+        
         
 }

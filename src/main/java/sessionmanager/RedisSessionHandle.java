@@ -93,4 +93,24 @@ public class RedisSessionHandle {
 			throw e;
 		}
 	}
+	
+	
+	/**
+	 * 判断是否含有此sessionId
+	 * @param sessionId
+	 * @return
+	 * @throws Exception
+	 */
+	public static boolean containsSessionId(String sessionId) throws Exception{
+		if(sessionId!=null&&!sessionId.equals("")){
+			try {
+				return RedisSession.containsSessionId(sessionId);
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw e;
+			}
+		}else{
+			throw new Exception("判断时候有此sessionId时参数不合法");
+		}
+	}
 }
