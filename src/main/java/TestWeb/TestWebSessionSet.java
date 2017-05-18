@@ -26,6 +26,7 @@ public class TestWebSessionSet extends HttpServlet{
 			e.printStackTrace();
 		}
     	
+    	
     	resp.getWriter().println("已经设置好，sessionId为："+ThreadLocalUtil.get());
     	
     }

@@ -38,7 +38,12 @@ public class SessionIdFilter implements Filter{
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		    
+		    /**
+		     * 获取sessionId 保证ThreadLocal中有sessionId
+		     * 1、先去cookie中去取，能取到就设置到threadlocal，同时初始化session
+		     * 2、如果取不到，再去ThrealLocal中取，能取到就设置到threadlocal，同时初始化session（这一步是上一个过滤器设置的）
+		     * 3、cookie和ThrealLocal中都取不到，说明第一次访问并且没有禁用cookie，就创建sessionId，设置到threadlocal并初始化session
+		     */
 		    String sessionId=CookieUtils.getCookieValue((HttpServletRequest)request, Config.getCookieName());
 		    if(sessionId!=null&&!sessionId.equals("")){
 		      try {
@@ -50,19 +55,27 @@ public class SessionIdFilter implements Filter{
 			}
 			   CookieUtils.setMaxAge((HttpServletRequest)request, Config.getCookieName(), 0); //删除此cookie 再新建一样的cookie，等于刷新cookie时间
 		       CookieUtils.setCookie((HttpServletRequest)request, (HttpServletResponse)response, Config.getCookieName(), sessionId, Integer.parseInt(Config.getSessionValid())*60);
-		    }else{                                     
-		       String newSessionId=null;
-			try {
-				newSessionId = SessionManager.set("", "");     //如果没有就在服务器创建session，生成uuid并放入ThreadLocal和cookie中
-			} catch (Exception e) {
-				e.printStackTrace();
-			} 
-			  if(newSessionId!=null){
-				  ThreadLocalUtil.set(newSessionId);
-			      CookieUtils.setCookie((HttpServletRequest)request, (HttpServletResponse)response, Config.getCookieName(), newSessionId, Integer.parseInt(Config.getSessionValid())*60);
-			  }  
-		       
-		       
+		    }else{
+		    	String localSessionId=ThreadLocalUtil.get();
+		    	 if(localSessionId!=null&&!localSessionId.equals("")){
+		    		 try {
+						SessionManager.set("", "");
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+		    	 }else{
+		    		    String newSessionId=null;
+		    		 try {
+		 				newSessionId = SessionManager.set("", "");     //如果没有就在服务器创建session，生成uuid并放入ThreadLocal和cookie中
+		 			} catch (Exception e) {
+		 				e.printStackTrace();
+		 			} 
+		 			  if(newSessionId!=null){
+		 				  ThreadLocalUtil.set(newSessionId);
+		 			      CookieUtils.setCookie((HttpServletRequest)request, (HttpServletResponse)response, Config.getCookieName(), newSessionId, Integer.parseInt(Config.getSessionValid())*60);
+		 			  }  
+		    	 }
+		              
 			}                        
 		    
 		   chain.doFilter(request, response);
