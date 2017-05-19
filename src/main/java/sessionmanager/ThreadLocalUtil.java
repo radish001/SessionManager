@@ -1,8 +1,9 @@
 package sessionmanager;
 
 /**
- * 放置User对象的本地环境变量
- * @author hxd
+ * 放置对象到本地环境变量的工具类
+ * @author 胡晓东
+ * @date 2017.5.15
  *
  */
 public class ThreadLocalUtil {

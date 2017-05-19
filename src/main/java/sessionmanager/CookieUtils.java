@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 /**
  * 操作cookie的工具类
- * @author hxd
+ * @author 胡晓东
+ * @date 2017.5.12
  *
  */
 public class CookieUtils {

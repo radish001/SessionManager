@@ -22,12 +22,18 @@ public class TestWebSessionSet extends HttpServlet{
     		user.setUserName("Radish");
 			SessionManager.set("haha", user);
 		} catch (Exception e) {
-			e.getMessage();
 			e.printStackTrace();
 		}
     	
     	
-    	resp.getWriter().println("已经设置好，sessionId为："+ThreadLocalUtil.get());
+    	//resp.getWriter().println("已经设置好，sessionId为："+ThreadLocalUtil.get());
+    	//resp.sendRedirect("/Session/get");
+    	try {
+    		System.out.println("转发的url："+ThreadLocalUtil.get());
+			SessionManager.sendRedirect(resp,"/Session/get" );
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     	
     }
        @Override

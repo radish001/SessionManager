@@ -8,7 +8,8 @@ import org.apache.log4j.Logger;
 
 /**
  * 对HttpSession的直接操作
- * @author hxd
+ * @author 胡晓东
+ * @date 2017.5.15
  *
  */
 public class HttpSessionHandle {
@@ -36,7 +37,6 @@ public class HttpSessionHandle {
 						HttpSession.addSession(sessionId, key, value);
 						return sessionId;
 					} catch (Exception e) {
-						e.printStackTrace();
 						throw e;
 					}
         		}else{
@@ -76,7 +76,6 @@ public class HttpSessionHandle {
         				System.out.println("得到的数据为："+"  key:"+key+"  value:"+value);
         				return value;
 					} catch (Exception e) {
-						e.printStackTrace();
 						throw e;
 					}
         		}else{
@@ -105,7 +104,6 @@ public class HttpSessionHandle {
         			  try {
         				  b=HttpSession.delete(sessionId, key);		  
 					} catch (Exception e) {
-						e.printStackTrace();
                         throw e;
 					}	 
         		}else{
@@ -135,7 +133,6 @@ public class HttpSessionHandle {
 						ThreadLocalUtil.set("");               //删除该sessionId对应的session后，将ThreadLocal中的sessionId也删除
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
 					throw e;
 				}
 			}else{
@@ -163,7 +160,6 @@ public class HttpSessionHandle {
 						throw new Exception("HttpSessionMap中不存在此sessionId:"+sessionId);
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
 					throw e;
 				}
         	}else{
@@ -183,7 +179,6 @@ public class HttpSessionHandle {
         		try {
 					return HttpSession.containsSessionId(sessionId);
 				} catch (Exception e) {
-					e.printStackTrace();
 					throw e;
 				}
         	}else{

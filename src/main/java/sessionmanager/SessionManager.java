@@ -1,7 +1,15 @@
 package sessionmanager;
 
+import java.io.IOException;
 
-
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+/**
+ * 这是SessionManage的使用类
+ * @author 胡晓东
+ * @date 2017.5.16
+ *
+ */
 public class SessionManager {
         private static final String MODE=Config.getMode();
         private static final String REDIS="redis";
@@ -20,14 +28,12 @@ public class SessionManager {
         	  try {
 				sessionId=RedisSessionHandle.set(key, value);
 			} catch (Exception e) {
-				e.printStackTrace();
 				throw e;
 			}
           }else if (REQUEST.equals(MODE)) {
                  try {
 					sessionId=HttpSessionHandle.set(key, value);
 				} catch (Exception e) {
-					e.printStackTrace();
 					throw e;
 				}			
 		}
@@ -49,14 +55,12 @@ public class SessionManager {
         		try {
 					value=RedisSessionHandle.get(key, clazz);
 				} catch (Exception e) {
-					e.printStackTrace();
 					throw e;
 				}
         	}else if (REQUEST.equals(MODE)) {
 				 try {	 
 					value=HttpSessionHandle.get(key);		
 				} catch (Exception e) {
-					e.printStackTrace();
 					throw e;
 				}
 			}
@@ -75,14 +79,12 @@ public class SessionManager {
         		try {
 					b=RedisSessionHandle.delete(key);
 				} catch (Exception e) {
-					e.printStackTrace();
 					throw e;
 				}
         	}else if (REQUEST.equals(MODE)) {
 				 try {
 					b=HttpSessionHandle.delete(key);
 				} catch (Exception e) {
-					e.printStackTrace();
 					throw e;
 				}
 			}
@@ -98,14 +100,12 @@ public class SessionManager {
         		try {
 					RedisSessionHandle.refreshValid();
 				} catch (Exception e) {
-					e.printStackTrace();
 					throw e;
 				}
         	}else if(REQUEST.equals(MODE)){
         		try {
 					HttpSessionHandle.refreshValid();
 				} catch (Exception e) {
-					e.printStackTrace();
 					throw e;
 				}
         	}
@@ -123,14 +123,12 @@ public class SessionManager {
         		try {
 					b=RedisSessionHandle.destory();
 				} catch (Exception e) {
-					e.printStackTrace();
 					throw e;
 				}
         	}else if (REQUEST.equals(MODE)) {
 				 try {
 					b=HttpSessionHandle.destory();
 				} catch (Exception e) {
-					e.printStackTrace();
 					throw e;
 				}
 			}
@@ -149,19 +147,57 @@ public class SessionManager {
         		try {
 					b=RedisSessionHandle.containsSessionId(sessionId);
 				} catch (Exception e) {
-					e.printStackTrace();
 					throw e;
 				}
         	}else if(REQUEST.equals(Config.getMode())){
         		try {
 					b=HttpSessionHandle.containsSessionId(sessionId);
 				} catch (Exception e) {
-					e.printStackTrace();
 					throw e;
 				}
         	}
 			return b;
         }
         
-         
+        
+        
+        /**
+         * url重写，在url后加上sessionId参数
+         * @param url
+         * @return
+         */
+        public static String encodeURL(String url){
+        	StringBuilder sendRedirectURL=new StringBuilder();
+        	if(url!=null){
+                String sessionId=ThreadLocalUtil.get();
+        	    if(sessionId!=null){
+        	    	//TODO 这里处理的不好 判断转向的url是否带参数
+        	    	if(url.contains("?")){                     
+        	    		sendRedirectURL.append(url).append("&sessionId="+sessionId);
+        	    	}else{
+        	    	     sendRedirectURL.append(url).append("?sessionId="+sessionId);
+        	    	}
+        	    	
+        	    }	    	
+        	}
+			return sendRedirectURL.toString();
+        }
+        
+        
+        /**
+         * 请求重定向的方法，防止cookie禁用，只能实现重定向后能使用session，不能实现会话级别的session
+         * @param response
+         * @param URL
+         * @throws IOException 
+         * @throws Exception
+         */
+        public static  void sendRedirect(HttpServletResponse response,String url) throws IOException{
+        	    String redirectURL=encodeURL(url);
+        	    try {
+					response.sendRedirect(redirectURL);
+				} catch (IOException e) {
+			           throw e;
+				}
+              
+       }
 }

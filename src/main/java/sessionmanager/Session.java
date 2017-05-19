@@ -1,7 +1,8 @@
 package sessionmanager;
 /**
  * 此类管理session中的键值和时间
- * @author hxd
+ * @author 胡晓东
+ * @date 2017.5.15
  *
  */
 

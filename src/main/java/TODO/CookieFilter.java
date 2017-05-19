@@ -1,4 +1,4 @@
-package sessionmanager;
+package TODO;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,6 +14,10 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import sessionmanager.Config;
+import sessionmanager.CookieUtils;
+import sessionmanager.ThreadLocalUtil;
 
 public class CookieFilter implements Filter {
     private FilterConfig filterConfig;
@@ -83,6 +87,7 @@ public class CookieFilter implements Filter {
 		}
 		//3次以上的请求直接放行
 		chain.doFilter(request, response);
+		ipMap.remove(ip);
 		
 	}
 

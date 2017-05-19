@@ -13,7 +13,8 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 /**
  * 此类是对redis的基本操作
- * @author hxd
+ * @author 胡晓东
+ * @date 2017.5.15
  *
  */
 public class RedisSession {
@@ -69,10 +70,8 @@ public class RedisSession {
     		 long ret=jedis.hset(sessionId, key, MAPPER.writeValueAsString(value)); //如果filed已经存在，返回0，新建返回1
         	 jedis.expire(sessionId,Integer.parseInt(Config.getSessionValid())*60);//设置生存时间
     		 if(ret==0||ret==1){
-    			 LOG.info("添加的数据sessionId："+sessionId+" key:"+key+" value:"+MAPPER.writeValueAsString(value));
+    			 LOG.info("添加数据的sessionId："+sessionId+" key:"+key+" value:"+MAPPER.writeValueAsString(value));
     			 LOG.info("添加数据的线程为："+Thread.currentThread().getName());
-    			 System.out.println("添加的数据sessionId："+sessionId+" key:"+key+" value:"+MAPPER.writeValueAsString(value));
-    			 System.out.println("添加数据的线程为："+Thread.currentThread().getName());
     			 returnResource(pool, jedis); 
         		 return sessionId;
         	 }else{
@@ -82,10 +81,13 @@ public class RedisSession {
         	 }	
     	 }else{
     		 String newSessionId=UUID.randomUUID().toString();   //如果不存在sessionId 新生成，并设置到threadlocal中
+    		 LOG.info("新创建sessionId："+newSessionId);
     		 ThreadLocalUtil.set(newSessionId);    //把sessionId放入threadlocal中
     		 long ret=jedis.hset(newSessionId, key, MAPPER.writeValueAsString(value)); //如果filed已经存在，返回0，新建返回1
     		 jedis.expire(newSessionId,Integer.parseInt(Config.getSessionValid())*60);//设置生存时间
     		 if(ret==0||ret==1){
+    			 LOG.info("添加的数据sessionId："+newSessionId+" key:"+key+" value:"+MAPPER.writeValueAsString(value));
+    			 LOG.info("添加数据的线程为："+Thread.currentThread().getName());
     			 returnResource(pool, jedis); 
         		 return newSessionId;
         	 }else{
@@ -226,9 +228,6 @@ public class RedisSession {
     		   if(jedis.exists(sessionId)){
     			   String jsonDate=jedis.hget(sessionId, key);
     			   if(jsonDate!=null){
-    				   System.out.println("得到数据的sessionId："+sessionId);
-    				   System.out.println("得到的jsonDate为："+jsonDate);
-    				   System.out.println("得到数据的线程为："+Thread.currentThread().getName());
     				   LOG.info("得到数据的sessionId："+sessionId);
     				   LOG.info("得到的jsonDate为："+jsonDate);
     				   LOG.info("得到数据的线程为："+Thread.currentThread().getName());
@@ -237,6 +236,7 @@ public class RedisSession {
             		   return value;
     			   }else{
     				   LOG.info(sessionId+"下不存在此key:"+key);
+    				   System.out.println("当前线程："+Thread.currentThread().getName());
     				   throw new Exception(sessionId+"下不存在此key:"+key);   
     			   }
     		   }else{
@@ -306,7 +306,7 @@ public class RedisSession {
     		 return b;
     	 }else{
     		 LOG.error("判断sessionId是否存在时参数不合法");
-    		throw new Exception("判断sessionId是否存在时参数不合法"); 
+    		 throw new Exception("判断sessionId是否存在时参数不合法"); 
     	 }
      }
      

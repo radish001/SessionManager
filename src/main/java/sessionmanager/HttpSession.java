@@ -1,7 +1,8 @@
 package sessionmanager;
 /**
  * session容器类 
- * @author hxd
+ * @author 胡晓东
+ * @date 2017.5.15
  *
  */
 
@@ -42,7 +43,7 @@ public class HttpSession {
     	  }
     	  else {
     		  LOG.error(ThreadLocalUtil.get()+":获取session时数据不合法");
-			throw new Exception(ThreadLocalUtil.get()+":获取session时数据不合法");
+			  throw new Exception(ThreadLocalUtil.get()+":获取session时数据不合法");
 		}
       }
       
@@ -89,7 +90,7 @@ public class HttpSession {
     		  }	  
     	  }else {
     		  LOG.error(ThreadLocalUtil.get()+"：设置最后登录时间时数据不合法");
-			 throw new Exception(ThreadLocalUtil.get()+"：设置最后登录时间时数据不合法");
+			  throw new Exception(ThreadLocalUtil.get()+"：设置最后登录时间时数据不合法");
 		}
       }
       
@@ -208,7 +209,6 @@ public class HttpSession {
     		  try {
 				lastTime=getLastTime(sessionId).getTime();
 			} catch (Exception e) {
-				e.printStackTrace();
 				throw e;	
 			}
     		 if(lastTime!=0){
@@ -237,7 +237,6 @@ public class HttpSession {
 			try {
 				session = HttpSession.getSession(sessionId);
 			} catch (Exception e) {
-				e.printStackTrace();
 				throw e;
 			}
     		  if(session!=null){

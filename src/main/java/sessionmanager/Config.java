@@ -105,16 +105,6 @@ public class Config {
 	}
 
 
-	public static void main(String[] args) {
-		
-		System.out.println(Config.getMode());
-		System.out.println(Config.getSessionValid());
-		System.out.println(Config.getIp());	
-		System.out.println(Config.getPort());
-		System.out.println(Config.getMinIdle());
-		System.out.println(Config.getMaxIdle());
-		System.out.println(Config.getMaxTotal());
-		System.out.println(Config.getCookieName());
-	}
+
       
 }

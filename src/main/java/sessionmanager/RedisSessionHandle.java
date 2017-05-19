@@ -4,7 +4,8 @@ import org.apache.log4j.Logger;
 
 /**
  * 此类是redissession的分装的顶层类，直接提供各种操作
- * @author hxd
+ * @author 胡晓东
+ * @date 2017.5.15
  *
  */
 
@@ -23,7 +24,6 @@ public class RedisSessionHandle {
 		try {
 			sessionId=RedisSession.set(key, value);
 			} catch (Exception e) {
-				e.printStackTrace();
 				throw e;
 			}
 		return sessionId;
@@ -58,7 +58,6 @@ public class RedisSessionHandle {
 		try {
 			b=RedisSession.delete(key);
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw e;
 		}
 		return b;
@@ -74,7 +73,6 @@ public class RedisSessionHandle {
         try {
 			RedisSession.setValidTime(seconds);
 		} catch (Exception e) {
-			//e.printStackTrace();
 			throw e;
 		}
 	}
@@ -88,7 +86,6 @@ public class RedisSessionHandle {
 		try {
 			return RedisSession.destory();
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw e;
 		}
 	}
@@ -105,7 +102,6 @@ public class RedisSessionHandle {
 			try {
 				return RedisSession.containsSessionId(sessionId);
 			} catch (Exception e) {
-				e.printStackTrace();
 				throw e;
 			}
 		}else{

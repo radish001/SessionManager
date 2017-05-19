@@ -7,7 +7,8 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 /**
  * 检查HttpSession是否过期，如果过期就删除
- * @author hxd
+ * @author 胡晓东
+ * @date 2017.5.12
  *
  */
 public class DestoryHttpSessionThread implements Runnable{
@@ -43,7 +44,6 @@ public class DestoryHttpSessionThread implements Runnable{
 					 System.out.println("sessionId为："+sessionId+"的httpsession销毁成功");
 				 }
 			} catch (Exception e) {
-				e.printStackTrace();
 				throw e;
 			}
 	    }

@@ -16,12 +16,12 @@
               <url-pattern>/*</url-pattern>  
     </filter-mapping> 
     
-   <!--  <filter>  
-        <filter-name>CookieFilter</filter-name>  
-        <filter-class>sessionmanager.CookieFilter</filter-class>  
+   <!-- <filter>  
+        <filter-name>RedirectSessionFilter</filter-name>  
+        <filter-class>sessionmanager.RedirectSessionFilter</filter-class>  
     </filter>  
     <filter-mapping>  
-         <filter-name>CookieFilter</filter-name>  
+         <filter-name>RedirectSessionFilter</filter-name>  
               <url-pattern>/*</url-pattern>  
     </filter-mapping>    -->
   
@@ -51,6 +51,25 @@
 	<servlet-mapping>
 		<servlet-name>TestWebSessionGet</servlet-name>
 		<url-pattern>/get</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+		<servlet-name>TomcatSet</servlet-name>
+		<servlet-class>TestWeb.TestTomcatSessionSet</servlet-class>		
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TomcatSet</servlet-name>
+		<url-pattern>/TomcatSet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>TomcatGet</servlet-name>
+		<servlet-class>TestWeb.TestTomcatSessionGet</servlet-class>		
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TomcatGet</servlet-name>
+		<url-pattern>/TomcatGet</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
