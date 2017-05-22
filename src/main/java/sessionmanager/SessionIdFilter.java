@@ -44,9 +44,9 @@ public class SessionIdFilter implements Filter{
 
 	/**
      * 获取sessionId 保证ThreadLocal中有sessionId
-     * 1、先去cookie中去取，能取到就设置到threadlocal，同时初始化session
-     * 2、如果取不到，再去ThrealLocal中取，能取到就设置到threadlocal，同时初始化session（这一步是上一个过滤器设置的）
-     * 3、cookie和ThrealLocal中都取不到，说明第一次访问并且没有禁用cookie，就创建sessionId，设置到threadlocal并初始化session
+     * 1、先去url参数中取找，如果有就得到并设置到threadlocal中
+     * 2、再去cookie中去取，能取到就设置到threadlocal，同时初始化session
+     * 3、cookie取不到，说明第一次访问并且没有禁用cookie，就创建sessionId，设置到threadlocal并初始化session
      */
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -61,7 +61,7 @@ public class SessionIdFilter implements Filter{
 				 String sessionId=CookieUtils.getCookieValue((HttpServletRequest)request, Config.getCookieName());
 				    if(sessionId!=null&&!sessionId.equals("")){
 				      try {
-				    		ThreadLocalUtil.set(sessionId);      //如果有此sessionID就放入到threadLocal中	  
+				    		ThreadLocalUtil.set(sessionId);      //如果cookie中有此sessionID就放入到threadLocal中	  
 							SessionManager.set("", "");          //这里是为了防止cookie中有此sessionId但是服务器session中没有的bug，同时也起到刷新时间的作用	   
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -69,29 +69,18 @@ public class SessionIdFilter implements Filter{
 					   CookieUtils.setMaxAge((HttpServletRequest)request, Config.getCookieName(), 0); //删除此cookie 再新建一样的cookie，等于刷新cookie时间
 				       CookieUtils.setCookie((HttpServletRequest)request, (HttpServletResponse)response, Config.getCookieName(), sessionId, Integer.parseInt(Config.getSessionValid())*60);
 				    }else{
-				    	//在sessionlocal中取sessionId，这是上一个判断是否禁用cookie的过滤器设置的，目前没有好的实现，可以不用
-				    	String localSessionId=ThreadLocalUtil.get();
-				    	 if(localSessionId!=null&&!localSessionId.equals("")){
-				    		 try {
-								SessionManager.set("", "");
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-				    	 }else{
-				    		    String newSessionId=null;
-				    		 try {
-				 				newSessionId = SessionManager.set("", "");     //如果没有就在服务器创建session，生成uuid并放入ThreadLocal和cookie中
-				 			} catch (Exception e) {
+				            String newSessionId=null;
+				         try {
+				 			   newSessionId = SessionManager.set("", "");     //如果cookie中没有就在服务器创建session，生成uuid并放入ThreadLocal和cookie中
+				 			 }catch (Exception e) {
 				 				e.printStackTrace();
-				 			} 
+				 			 } 
 				 			  if(newSessionId!=null){
 				 				  ThreadLocalUtil.set(newSessionId);
 				 			      CookieUtils.setCookie((HttpServletRequest)request, (HttpServletResponse)response, Config.getCookieName(), newSessionId, Integer.parseInt(Config.getSessionValid())*60);
 				 			  }  
-				    	 }
-				              
-					}      
-			}
+				    	 }              		      
+			  }
 		   chain.doFilter(request, response);
 		   LOG.info("过滤完毕,sessionID为："+ThreadLocalUtil.get());
 

@@ -25,17 +25,12 @@ public class TestWebSessionSet extends HttpServlet{
 			e.printStackTrace();
 		}
     	
+    	  //resp.getWriter().print("设置完毕，设置数据的uuid为："+ThreadLocalUtil.get());
+    	  String url=SessionManager.encodeURL("/Session/get");
+    	  resp.sendRedirect(url);
+      }	
     	
-    	//resp.getWriter().println("已经设置好，sessionId为："+ThreadLocalUtil.get());
-    	//resp.sendRedirect("/Session/get");
-    	try {
-    		System.out.println("转发的url："+ThreadLocalUtil.get());
-			SessionManager.sendRedirect(resp,"/Session/get" );
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
     	
-    }
        @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	super.doPost(req, resp);

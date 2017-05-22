@@ -214,8 +214,8 @@ public class HttpSession {
     		 if(lastTime!=0){
     			long interval=time-lastTime;
     			long sessionValid=(Integer.parseInt(Config.getSessionValid()))*60*1000; //毫秒
-    			System.out.println("设置的有效期为："+sessionValid);
-    			System.out.println("sessionId为："+sessionId+"  的剩余时间："+(sessionValid-interval));
+    			LOG.info("设置的有效期为："+sessionValid);
+    			LOG.info("sessionId为："+sessionId+"  的剩余时间："+(sessionValid-interval)+"毫秒");
     			return interval>sessionValid;
     		 }  
     	  }
