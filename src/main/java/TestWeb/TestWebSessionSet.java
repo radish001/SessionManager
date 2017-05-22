@@ -25,9 +25,9 @@ public class TestWebSessionSet extends HttpServlet{
 			e.printStackTrace();
 		}
     	
-    	  //resp.getWriter().print("设置完毕，设置数据的uuid为："+ThreadLocalUtil.get());
-    	  String url=SessionManager.encodeURL("/Session/get");
-    	  resp.sendRedirect(url);
+    	  resp.getWriter().print("设置完毕，设置数据的uuid为："+ThreadLocalUtil.get());
+    	  //String url=SessionManager.encodeURL("/Session/get");
+    	  //resp.sendRedirect(url);
       }	
     	
     	

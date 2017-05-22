@@ -35,8 +35,7 @@ public class SessionIdFilter implements Filter{
 			  HttpSession httpSession=HttpSession.getInstance();     //初始化HttpSession
 			  Thread thread=new Thread(new DestoryHttpSessionThread());
 			  thread.start();                                     //启动定时销毁HttpSession的线程
-			  LOG.info("HttpSession已初始化，定时销毁线程已启动！");                                    
-		      
+			  LOG.info("HttpSession已初始化，定时销毁线程已启动！");                                   	      
 		}
 		  
 	}
@@ -81,8 +80,9 @@ public class SessionIdFilter implements Filter{
 				 			  }  
 				    	 }              		      
 			  }
-		   chain.doFilter(request, response);
 		   LOG.info("过滤完毕,sessionID为："+ThreadLocalUtil.get());
+		   chain.doFilter(request, response);
+		   
 
 	}
 
